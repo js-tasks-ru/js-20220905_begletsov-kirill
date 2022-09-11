@@ -14,7 +14,7 @@ export function sortStrings(arr, param = 'asc') {
             a = b
             b = letter
         } 
-        return param === 'asc' ? a.localeCompare(b): b.localeCompare(a);;
+        return param === 'asc' ? a.localeCompare(b,['ru','en']): b.localeCompare(a,['ru','en']);
     } ) 
 
 }
