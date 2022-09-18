@@ -6,7 +6,7 @@
 export function createGetter(path) {
     const fields = path.split('.');
     
-    const func = (obj) =>{
+     return (obj) =>{
       
         let result =  obj
         for (const field of fields) {
@@ -14,6 +14,5 @@ export function createGetter(path) {
             if (!result) break;
         }
         return result
-    }
-    return func;
+    };
 }
