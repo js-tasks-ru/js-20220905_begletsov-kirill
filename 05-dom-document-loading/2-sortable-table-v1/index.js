@@ -48,15 +48,6 @@ export default class SortableTable {
     return result.join("");
   }
 
-  /*  <div class="sortable-table__cell">
-          <img class="sortable-table-image" alt="Image" src="#">
-        </div>
-        <div class="sortable-table__cell">${item.title}</div>
-        <div class="sortable-table__cell">${item.quantity}</div>
-        <div class="sortable-table__cell">${item.price}</div>
-        <div class="sortable-table__cell">${item.sales}</div> */
-
-
   getBodyData(data){
     return data.map(item => {
       return `<a href="/products/${item.id}" class="sortable-table__row">
