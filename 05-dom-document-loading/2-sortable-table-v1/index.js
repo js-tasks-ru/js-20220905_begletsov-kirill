@@ -1,7 +1,7 @@
 export default class SortableTable {
 
   element;
-  updatedData;
+  sortedData;
 
   subElements;
 
@@ -25,33 +25,32 @@ export default class SortableTable {
     return data.map(item => {
       return `<div class="sortable-table__cell" data-id="${item.id}" data-sortable="${item.sortable}">
         <span>${item.title}</span>
+        <span data-element="arrow" class = "sortable-table__sort-arrow">
+          <span class="sort-arrow"></span>
+        </span>
       </div>`
     }).join("");
   }
 
-  getData(header, data){
-    const head = header.map(item => item.id);
-    let result = [];
-    for (const item of head) {
-      for (const [key, value] of Object.entries(data)) {
-        if (item === key) {
-          if (item === "images") {
-            result.push(`<div class="sortable-table__cell">
-            <img class="sortable-table-image" alt="Image" src="#">
-          </div>`)
-          continue;
-          }
-          result.push(`<div class="sortable-table__cell">${value}</div>`)
-        }
-      }
-    }
-    return result.join("");
+  getData(item){
+    const cells = this.headerConfig.map(({id, template}) => {
+      return {
+        id,
+        template
+      };
+    })
+
+    return cells.map(({id, template}) => {
+      return template
+        ? template(item[id])
+        : `<div class="sortable-table__cell">${item[id]}</div>`
+    }).join("");
   }
 
   getBodyData(data){
     return data.map(item => {
       return `<a href="/products/${item.id}" class="sortable-table__row">
-       ${this.getData(this.headerConfig, item)}
+       ${this.getData(item)}
       </a>`
     }).join("");
   }
@@ -77,8 +76,17 @@ export default class SortableTable {
   }
 
   sort(field, order){
-    this.updatedData = this.sortFields(this.data, order,field);
-    this.update(this.updatedData);
+    this.sortedData = this.sortFields(this.data, order,field);
+    const allColumns = this.element.querySelectorAll(".sortable-table__cell[data-id]");
+    const column = this.element.querySelector(`[data-id = "${field}"]`);
+
+    allColumns.forEach(column => {
+      column.dataset.order = "";
+    });
+
+    column.dataset.order = order;
+    
+    this.update(this.sortedData)
   }
 
   update(data){
@@ -95,8 +103,10 @@ export default class SortableTable {
     return [...data].sort((a,b) => {
       if (typeof a[field] === "number") {
         return directions[param] * (a[field] - b[field])
-      }else {
+      }else if (typeof a[field] === "string"){
         return directions[param] *  a[field].localeCompare(b[field],['ru','en'], {caseFirst:'upper'});
+      }else{
+        throw new Error('Unknown type');
       }
     });
   }

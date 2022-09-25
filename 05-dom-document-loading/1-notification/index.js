@@ -1,4 +1,6 @@
 export default class NotificationMessage {
+    static activeNotifivation;
+    
     element;
 
     constructor(message, {
@@ -13,8 +15,9 @@ export default class NotificationMessage {
             this.type = "error";
         }
 
-        this.show();
+        this.render();
     }
+
     get temmplate(){
         return `
             <div class="timer"></div>
@@ -22,23 +25,25 @@ export default class NotificationMessage {
             <div class="notification-body">${this.message}</div>
         `
     }
-
-    show(notification = document.createElement('div')){
-
+    render(){
+        const notification = document.createElement('div')
         notification.className = `notification ${this.type}`;
         notification.setAttribute("style", `--value:${this.duration / 1000}s`);
         notification.innerHTML = this.temmplate;
 
 
         this.element = notification;
+    }
 
-        const check = document.querySelector(".notification")
-
-        if (check) {
-            this.remove(check)
+    show(parent = document.body){
+        if (NotificationMessage.activeNotifivation){
+            NotificationMessage.activeNotifivation.remove();
         }
 
+        parent.append(this.element)
         setTimeout(() => this.remove(), this.duration);
+
+        NotificationMessage.activeNotifivation = this;
     }
     remove(element = this.element){
         element.remove();
