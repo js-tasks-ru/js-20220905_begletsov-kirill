@@ -7,7 +7,7 @@ export default class ColumnChart {
         label = '',
         value = 0,
         link = '',
-        formatHeading = (data) =>{`$${data}`},
+        formatHeading = data => data,
     } = {}){
        
         this.data = data;
@@ -45,7 +45,9 @@ export default class ColumnChart {
         const div = document.createElement('div');
         if (!this.data.length) {
             div.className = "column-chart column-chart_loading";
-        }else div.className = "column-chart";
+        }else {
+            div.className = "column-chart"
+        };
         
         div.setAttribute("style", `--chart-height: ${this.chartHeight}`)
         div.innerHTML = `<div class = "column-chart__title">
@@ -74,6 +76,4 @@ export default class ColumnChart {
     destroy(){
         this.remove();
     }
-
-
 }
