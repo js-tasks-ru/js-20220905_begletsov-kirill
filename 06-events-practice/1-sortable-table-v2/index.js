@@ -51,10 +51,7 @@ export default class SortableTable {
 
   }
   getOrder(order){
-    if (order === "asc") {
-      return "desc"
-    }
-    return "asc"
+    return order === "asc" ? "desc" : "asc";
   }
 
   getHeaderConfig(data){
