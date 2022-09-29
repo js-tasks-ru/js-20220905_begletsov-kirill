@@ -43,11 +43,6 @@ export default class ColumnChart {
     }
     render(){
         const div = document.createElement('div');
-        if (!this.data.length) {
-            div.className = "column-chart column-chart_loading";
-        }else {
-            div.className = "column-chart"
-        };
         
         div.setAttribute("style", `--chart-height: ${this.chartHeight}`)
         div.innerHTML = `<div class = "column-chart__title">
@@ -61,7 +56,7 @@ export default class ColumnChart {
             </div>
         </div>
         `
-
+        !this.data.length ?  div.className = "column-chart column-chart_loading" : div.className = "column-chart";
         this.element = div;
         this.elementContent = this.element.querySelectorAll('#content');
     }
