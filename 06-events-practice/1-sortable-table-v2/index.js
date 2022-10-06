@@ -21,6 +21,7 @@ export default class SortableTable {
   }
 
   initialize(){
+    
     this.render();
     this.sort(this.sorted.id, this.sorted.order);
 
@@ -119,9 +120,7 @@ export default class SortableTable {
       column.dataset.order = "";
     });
 
-    column.dataset.order = order;
-
-    
+    column.dataset.order = order;    
   }
 
   sortFields(data, param = 'asc', field) {
@@ -139,7 +138,7 @@ export default class SortableTable {
       }else if (sortType === "number") {
         return directions[param] * (a[field] - b[field])
       }else{
-        throw new Error('Unknown type');
+        throw new Error('Unknown type of sorting!');
       }
     });
   }
