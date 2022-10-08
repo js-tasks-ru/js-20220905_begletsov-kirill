@@ -274,13 +274,6 @@ export default class ProductForm {
 
     productForm.addEventListener("submit", this.onSubmit);
     uploadImage.addEventListener("click", this.loadImage);
-
-    imageListContainer.addEventListener('click', event => {
-      const {deleteHandle} = event.target.dataset;
-      if (deleteHandle !== undefined) {
-        event.target.closest('li').remove();
-      }
-    });
   }
 
   getSubElements(element = this.element) {
